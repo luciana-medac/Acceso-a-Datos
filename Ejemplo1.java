@@ -15,7 +15,16 @@ public class Ejemplo1 {
         //carpeta.mkdirs(); --> para crear la carpeta
         
         File fichero2 = new File(".\\backup\\backupEjercicio1.txt");
-        fichero.renameTo(fichero2);
+        
+        //Si la carpeta existe, que diga "la carpeta + nombre + ya existe"
+        //Si no existe, decir que la carpeta se ha creado y poner la ruta relativa y absoluta
+        if (fichero.renameTo(fichero2)) {
+            System.out.println("El fichero " + fichero.getName() + " ya existe");
+        } else {
+            System.out.println("El fichero se ha movido correctamente");
+            System.out.println("Ruta relativa: " + fichero2.getPath());
+            System.out.println("Ruta absoluta: " + fichero2.getAbsolutePath());
+        }
 
         } catch (Exception e) {
             System.out.println("Erroooor");
