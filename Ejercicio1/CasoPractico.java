@@ -23,8 +23,8 @@ class CasoPractico {
         LocalDateTime fechaActual = LocalDateTime.now(); // --> variable de tipo fecha para poner la fecha actual
         
         //Creamos los ficheros
-        File fichero = new File(".\\archivo_origen.txt");
-        File fichero2 = new File(".\\archivo_destino.txt");
+        File fichero = new File("archivo_origen.txt");
+        File fichero2 = new File("archivo_destino.txt");
         //Guardamos las rutas de los ficheros
         String path = fichero.getAbsolutePath();
         String path2 = fichero2.getAbsolutePath();
@@ -39,8 +39,8 @@ class CasoPractico {
         RandomAccessFile file = new RandomAccessFile(path, "rw");
         RandomAccessFile file2 = new RandomAccessFile(path2, "rw");
         
-        BufferedReader br = new BufferedReader(new FileReader(".\\archivo_origen.txt"));
-        BufferedWriter bw = new BufferedWriter(new FileWriter(".\\archivo_destino.txt"));
+        BufferedReader br = new BufferedReader(new FileReader("archivo_origen.txt"));
+        BufferedWriter bw = new BufferedWriter(new FileWriter("archivo_destino.txt"));
 
         //Leemos el fichero y mientras se va escribiendo en otro
         while ((linea = br.readLine()) != null){
@@ -54,7 +54,7 @@ class CasoPractico {
         br.close();
         bw.close();
 
-        } catch (FileNotFoundException fNfE){
+        } catch (FileNotFoundException e){
             System.out.println("Problemas al acceder al fichero");
         }
         catch (Exception e) {
