@@ -4,6 +4,8 @@ import java.io.BufferedInputStream;
 import java.io.BufferedOutputStream;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
+import java.time.LocalDate;
+import java.time.LocalDateTime;
 
 public class Correccion {
     
@@ -13,12 +15,14 @@ public class Correccion {
 
             //TAMAÑO DEL BUFFER (DEL ARRAY)
             int bufferSize = 12;
+            LocalDate fechaActual = LocalDate.now();
 
             //esto sirve para guardar en memoria el txt
             BufferedInputStream bIs = new BufferedInputStream(
-                new FileInputStream("C:\\Users\\molin\\Documents\\GitHub\\Acceso-a-Datos\\Ejercicio1\\archivo_origen.txt"));
-            BufferedOutputStream bOs = new BufferedOutputStream(
-                new FileOutputStream("C:\\Users\\molin\\Documents\\GitHub\\Acceso-a-Datos\\Ejercicio1\\archivo_destino.txt"));
+                new FileInputStream("C:\\Users\\PC218\\Documents\\GitHub\\Acceso-a-Datos\\Ejercicio1\\archivo_origen.txt"));
+
+            BufferedOutputStream bOs = new BufferedOutputStream(                                                    //Para sobreescribir se pone true
+                new FileOutputStream("C:\\Users\\pc218\\Documents\\GitHub\\Acceso-a-Datos\\Ejercicio1\\archivo_destino.txt", true));
             
             //CREAMOS UN ARRAY DE BYTES PARA ALMACENAR CADA BLOQUE LEÍDO
             byte[] buffer = new byte[bufferSize];
@@ -37,9 +41,14 @@ public class Correccion {
 
                 //Copiamos el contenido de origen a el txt destino
                 bOs.write(buffer, 0, info);
+                //String marcaBloque = "\n Fin copia bloque " + blockNumber + "\n"
+                //b0s.write(marcaBloque.getBytes());
                 
             }
             
+            String ultimaModificacion = "\nUltima modificación: " + fechaActual;
+            bOs.write(ultimaModificacion.getBytes());
+
             bIs.close();
             bOs.close();
 
