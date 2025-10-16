@@ -7,7 +7,7 @@ public class Ejemplo3 {
         
         try{
 
-            LineNumberReader ln = new LineNumberReader(new FileReader(".\\EjemploToken.txt"));
+            LineNumberReader ln = new LineNumberReader(new FileReader("C:\\Users\\PC218\\Documents\\GitHub\\Acceso-a-Datos\\TEMA2\\EjemploToken.txt"));
 
             //Guarda el valor de cada linea
             String linea = ln.readLine();

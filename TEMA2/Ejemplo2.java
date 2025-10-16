@@ -12,7 +12,7 @@ public class Ejemplo2 {
         try{
             //PARA LEER UN FICHERO
             StreamTokenizer st = new StreamTokenizer(
-                new FileReader(".\\EjemploToken.txt"));
+                new FileReader("C:\\Users\\PC218\\Documents\\GitHub\\Acceso-a-Datos\\TEMA2\\EjemploToken.txt"));
             //Para que te tenga en cuenta lo de salto de linea
             st.eolIsSignificant(true);
             //Que lea hasta el final de fichero
