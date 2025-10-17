@@ -38,7 +38,7 @@ public class Ejercicio4_hilos {
 //            hJ.interrupt();
 //        }
 
-        hC.
+        
         
     }
 }
