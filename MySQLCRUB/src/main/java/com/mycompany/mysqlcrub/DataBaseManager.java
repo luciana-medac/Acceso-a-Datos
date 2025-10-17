@@ -79,11 +79,13 @@ public class DataBaseManager {
     
     public void insertarPedidoProducto(int idPedido, int idProducto, int c) throws SQLException {
         
-        String consulta = "INSERT INTO pedido_producto(id, precio, stock) VALUES" +
+        String consulta = "INSERT INTO pedido_producto(id_pedido, id_producto, c) VALUES" +
                  " ('" + idPedido + "','" + idProducto + "','" + c + "');";
         
         PreparedStatement stmt = conn.prepareStatement(consulta);
         stmt.executeUpdate();
+        
+        //ACTUALIZAR EL STOCK EN LA CANTIDAD
         
         String consulta2 = "SELECT id_pedido, id_producto, cantidad FROM pedido_producto"
                 + "WHERE id_pedido = " + idPedido;
