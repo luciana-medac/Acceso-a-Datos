@@ -25,7 +25,9 @@ public class XPathDOM {
             DocumentBuilder builder = factory.newDocumentBuilder();
 
             // Especificar el archivo XML que deseas analizar.
-            File file = new File("C:\\Users\\PC218\\Documents\\GitHub\\Acceso-a-Datos\\TEMA3\\fichero.xml");
+            File file = new File("C:\\Users\\molin
+            
+            \\Documents\\GitHub\\Acceso-a-Datos\\TEMA3\\fichero.xml");
 
             // Parsear (analizar) el archivo XML y obtener un objeto Document.
             Document doc = builder.parse(file);
