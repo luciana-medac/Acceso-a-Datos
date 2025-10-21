@@ -34,7 +34,7 @@ public class DataBaseManager {
 
     //CREAR UN NUEVO CLIENTE
     public void insertarCliente(String n, int e, String c) throws SQLException {
-
+        //Consulta para insertar un cliente
         String consulta = "INSERT INTO cliente(nombre, edad, ciudad) VALUES"
                 + " ('" + n + "','" + e + "','" + c + "');";
 
@@ -48,7 +48,7 @@ public class DataBaseManager {
 
     //CREAR UN NUEVO PRODUCTO
     public void insertarProducto(String n, float p, int s) throws SQLException {
-
+        //Consulta para insertar un producto
         String consulta = "INSERT INTO producto(nombre, precio, stock) VALUES"
                 + " ('" + n + "','" + p + "','" + s + "');";
 
@@ -78,7 +78,7 @@ public class DataBaseManager {
             //Obtiene el ID del nuevo pedido
             ResultSet rs = stmt.getGeneratedKeys();
             if (rs.next()) {
-                idGenerado = rs.getInt(1); //Devuelve el primer valor que genere
+                idGenerado = rs.getInt(1); //Devuelve el primer valor que se ha generado
                 System.out.println("Pedido insertado con ID: " + idGenerado);
             }
         }
@@ -89,6 +89,7 @@ public class DataBaseManager {
     //CREAR UN DATO EN PEDIDO_PRODUCTO
     public void insertarPedidoProducto(int idPedido, int idProducto, int c) throws SQLException {
         
+        //Insertamos la fila en pedido_producto
         String consulta = "INSERT INTO pedido_producto(id_pedido, id_producto, cantidad) VALUES"
                 + " ('" + idPedido + "','" + idProducto + "','" + c + "');";
 
@@ -109,15 +110,19 @@ public class DataBaseManager {
         String consulta2 = "SELECT id_pedido, id_producto, cantidad FROM pedido_producto WHERE id_pedido = " + idPedido;
         PreparedStatement stmt1 = conn.prepareStatement(consulta2);
         ResultSet rs = stmt1.executeQuery();
+        
         int cantidad = 0;
         boolean existePedido = false;
+        
         while (rs.next()) {
             cantidad = rs.getInt("cantidad");
+            //Si da resultado la consulta, entonces la variable cambia a true
             existePedido = true;
         }
         
-        //Si la consulta2 devuelve true, actualiza el stock en la tabla de producto
+        //Si la variable es true (porque se ha realizado bien la consulta)
         if (existePedido) {
+            //Actualiza el stock de la tabla de producto
             String consulta4 = "UPDATE producto SET stock=" + (stock - cantidad) + " WHERE id= " + idProducto;
             PreparedStatement stmt3 = conn.prepareStatement(consulta4);
             stmt3.executeUpdate();
@@ -134,7 +139,8 @@ public class DataBaseManager {
     }
 
     public void consultarPedido(int idPedido) throws SQLException {
-
+        
+        //Hacemos la consulta para sacar los datos 
         String consulta = " SELECT cli.nombre, cli.ciudad, p.fecha, pr.nombre as producto, pp.cantidad, pr.precio FROM cliente as cli\n"
                 + "INNER JOIN pedido as p ON p.id_cliente = cli.id \n"
                 + "INNER JOIN pedido_producto as pp ON pp.id_pedido = p.id\n"
@@ -142,10 +148,12 @@ public class DataBaseManager {
                 + "Where p.id =" + idPedido + "; ";
         PreparedStatement stmt = conn.prepareStatement(consulta);
         ResultSet rs = stmt.executeQuery();
-
+        
+        //Creamos las variables
         String nombre = "";
         String ciudad = "";
         String fecha = "";
+        //Lista para añadir los productos
         List<String> listaProductos = new ArrayList<>();
         double totalPedido = 0;
 
@@ -169,6 +177,7 @@ public class DataBaseManager {
         
         stmt.close();
         
+        //Mostramos los resultados
         System.out.println("\nCliente: " + nombre + " (" + ciudad + ")");
         System.out.println("Fecha del pedido: " + fecha);
         System.out.println("Productos:");
@@ -180,15 +189,19 @@ public class DataBaseManager {
     
     public void eliminarProducto(int idPedido, int idProducto) throws SQLException{
         
+        //Consulta para eliminar una fila de la tabla pedido_producto
         String consulta = "DELETE FROM pedido_producto WHERE id_pedido= " + idPedido + " AND  id_producto =  " + idProducto + ";";
         PreparedStatement stmt = conn.prepareStatement(consulta);
+        //Devuelve un número de filas
         int filas = stmt.executeUpdate();
         
+        //Si el número es mayor a 0, se eliminan
         if (filas > 0) {
             System.out.println("Eliminado con exito");
         } else {
             System.out.println("No se ha podido eliminar");
         }
+        
         stmt.close();
     }
 
