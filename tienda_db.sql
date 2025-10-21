@@ -80,7 +80,21 @@ SELECT cli.nombre, sum(pp.cantidad*pr.precio) total FROM cliente as cli
 INNER JOIN pedido as p ON p.id_cliente = cli.id 
 INNER JOIN pedido_producto as pp ON pp.id_pedido = p.id
 INNER JOIN producto as pr ON pp.id_producto = pr.id
-GROUP BY cli.nombre having total > 100;
+GROUP BY cli.nombre;
+
+
+-- Prueba para java
+SELECT cli.nombre, cli.ciudad, p.fecha, pr.nombre as producto, pp.cantidad, pr.precio FROM cliente as cli
+INNER JOIN pedido as p ON p.id_cliente = cli.id 
+INNER JOIN pedido_producto as pp ON pp.id_pedido = p.id
+INNER JOIN producto as pr ON pp.id_producto = pr.id
+Where p.id = 1;
+
+
+SELECT * from pedido;
+SELECT * FROM cliente;
+SELECT * FROM producto;
+SELECT * FROM pedido_producto;
 
 
 
