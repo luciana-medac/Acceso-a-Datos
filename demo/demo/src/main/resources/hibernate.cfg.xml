@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<hibernate-configuration>
+   <!-- Contiene todas las propiedades y mapeos necesarios, objeto principal que usa Hibernate para
+   conectarse a la bbdd y gestionar las sesiones--> 
+    <session-factory>
+        
+        <!-- Configuración de conexión -->
+        <property name="hibernate.connection.driver_class">com.mysql.cj.jdbc.Driver</property>
+        <property name="hibernate.connection.url">jdbc:mysql://localhost:3306/empresa_db</property>
+        <property name="hibernate.connection.username">root</property>
+        <property name="hibernate.connection.password">Med@c</property>
+        
+        <!-- Dialecto, se necesita saber como traducir su SQL genérico al SQL específico de nuestra bbdd -->
+        <property name="hibernate.dialect">org.hibernate.dialect.MySQL8Dialect</property>
+        
+        <!-- Crear o actualizar tablas según las clases mapeadas(sin borrar datos) -->
+        <property name="hibernate.hbm2ddl.auto">update</property>
+        
+        <!-- Mostrar en la terminal las sentencias SQL que ejecuta hibernate y las formatea
+        para que sea legible -->
+        <property name="show_sql">true</property>
+        <property name="format_sql">true</property>
+        
+        <!-- Fichero de mapeo -->
+        <mapping resource="customer.hbm.xml"/>
+        <mapping resource="producto.hbm.xml"/>
+        
+    </session-factory>
+</hibernate-configuration>

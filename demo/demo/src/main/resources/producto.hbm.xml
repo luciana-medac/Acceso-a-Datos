@@ -1,0 +1,9 @@
+<hibernate-mapping>
+    <class name="com.example.demo.Producto" table="Producto">
+    <id name="id" type="int" column="id_producto">
+        <generator class="native"/>
+    </id>
+
+    <property name="nombre" type="string" column="Nombre"/>
+    </class>
+</hibernate-mapping>
