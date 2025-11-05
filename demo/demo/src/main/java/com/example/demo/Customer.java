@@ -2,7 +2,6 @@ package com.example.demo;
 public class Customer {
 
     private int id;
-    private String name;
     private String firstName;
     private String lastName;
 
@@ -21,9 +20,7 @@ public class Customer {
         return id;
     }
     
-    public String getName() {
-        return name;
-    }
+    
     public String getFirstName() {
         return firstName;
     }
@@ -34,9 +31,6 @@ public class Customer {
     //SETTERS
     public void setId(int id) {
         this.id = id;
-    }
-    public void setName(String name) {
-        this.name = name;
     }
     public void setFirstName(String firstName) {
         this.firstName = firstName;

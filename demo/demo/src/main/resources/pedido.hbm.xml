@@ -1,0 +1,16 @@
+<hibernate-mapping>
+    <class name="com.example.demo.Pedido" table="Pedido">
+    <id name="id" type="int" column="id_pedido">
+        <generator class="native"/>
+    </id>
+
+    <property name="fecha" type="date" column="fecha"/>
+    <property name="cantidad" type="int" column="cantidad"/>
+    <property name="importe" type="double" column="importe"/>
+
+    <!-- Relación muchos para un cliente (clave foránea)--> 
+    <many-to-one name="customer" class="com.example.demo.Customer" column="id_cliente" not-null="true"/>
+    <many-to-one name="product" class="com.example.demo.Producto" column="id_producto" not-null="true"/>
+
+    </class>
+</hibernate-mapping>

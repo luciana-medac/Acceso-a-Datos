@@ -25,6 +25,7 @@
         <!-- Fichero de mapeo -->
         <mapping resource="customer.hbm.xml"/>
         <mapping resource="producto.hbm.xml"/>
+        <mapping resource="pedido.hbm.xml"/>
         
     </session-factory>
 </hibernate-configuration>

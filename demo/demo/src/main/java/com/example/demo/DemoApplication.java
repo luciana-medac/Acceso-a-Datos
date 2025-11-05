@@ -21,7 +21,9 @@ public class DemoApplication {
 			Customer cliente1 = new Customer("Martin", "Fernandez");
 
 			//Crear un producto
-			Producto p1 = new Producto("Teclado");
+			Producto p1 = new Producto("Teclado", 7);
+
+			Pedido pe1 = new Pedido();
 			
 			//Almacenar el cliente en la base de datos
 			session.persist(cliente1);
