@@ -2,7 +2,11 @@ package com.example.demo;
 
 import org.hibernate.SessionFactory;
 import org.hibernate.cfg.Configuration;
+
+import jakarta.persistence.Query;
+
 import java.util.Date;
+import java.util.List;
 import java.util.Scanner;
 
 import org.hibernate.Session;
@@ -16,12 +20,9 @@ public class DemoApplication {
 		// y carga todas las propiedades: conexión, dialecto, mapeos, etc
 		SessionFactory sessionFactory = new Configuration().configure().buildSessionFactory();
 
-		try (
-			
-			// Abrir una nueva sesión
-			Session session = sessionFactory.openSession()) {
+		try {
+			Session session;
 			// Iniciar transacción
-			session.beginTransaction();
 			Scanner sc = new Scanner(System.in);
 			int opcion = 0;
 
@@ -40,7 +41,9 @@ public class DemoApplication {
 
 				switch (opcion) {
 					case 1:
-						// Aquí se crea el cliente
+						session = sessionFactory.openSession();
+						session.beginTransaction();
+
 						System.out.println("Introduce el nombre del cliente: ");
 						String nombre = sc.nextLine();
 
@@ -56,7 +59,9 @@ public class DemoApplication {
 
 						break;
 					case 2:
-						// Aquí se crea el producto
+						session = sessionFactory.openSession();
+						session.beginTransaction();
+
 						System.out.println("Introduce el nombre del producto: ");
 						String nProducto = sc.nextLine();
 
@@ -69,24 +74,20 @@ public class DemoApplication {
 						session.close();
 
 						System.out.println("Se ha añadido el producto correctamente");
-
 						break;
 					case 3:
-						// Aquí se crea el pedido
+						session = sessionFactory.openSession();
+						session.beginTransaction();
+
 						System.out.println("Introduce el id del cliente: ");
 						int idc= Integer.parseInt(sc.nextLine());
-
 						System.out.println("Introduce el id del Producto: ");
 						int idp= Integer.parseInt(sc.nextLine());
-
 						System.out.println("Introduce la cantidad: ");
 						int can = Integer.parseInt(sc.nextLine());
-						
 						Customer c = session.get(Customer.class, idc);
 						Producto p = session.get(Producto.class, idp);
-
 						double importe = can * p.getPrecio();
-
 						Pedido ped = new Pedido();
 
 						ped.setCustomer(c);
@@ -98,35 +99,76 @@ public class DemoApplication {
 						session.persist(ped);
 						session.getTransaction().commit();
 						session.close();
-						
-						System.out.println("Se ha añadido el pedido correctamente");
+						if (c == null || p == null) {
+							System.out.println("El cliente o el producto no existe");
+						} else {
+							System.out.println("Se ha añadido el pedido correctamente");
+						}
 						break;
-
 					case 4:
-						// Aquí se actualiza el precio del producto
-					
+						session = sessionFactory.openSession();
+						session.beginTransaction();
+
+						System.out.println("Introduce el ID del producto: ");
+						int idP = Integer.parseInt(sc.nextLine());
+						System.out.println("Introduce el nuevo precio: ");
+						double nuevoPrecio = Double.parseDouble(sc.nextLine());
+
+						Query q = session.createQuery(
+							"update Producto set precio=:precio where id=:id");
+
+						q.setParameter("precio", nuevoPrecio);
+						q.executeUpdate();
+						session.getTransaction().commit();
+						session.close();
+						System.out.println("Se ha actualizado el precio");
+						
 						break;
 					case 5:
-						// Aquí se borra un pedido
+						session = sessionFactory.openSession();
+						session.beginTransaction();
 
+						System.out.println("Introduce el ID del pedido: ");
+						int idPed = Integer.parseInt(sc.nextLine());
+						Pedido ped2 = session.get(Pedido.class, idPed);
+
+						session.remove(ped2); //delete() está obsoleto --> se usa remove()
+						session.getTransaction().commit();
+						session.close();
 						break;
 					case 6:
+						session = sessionFactory.openSession();
+						session.beginTransaction();
+						
 						// Aquí se listan los pedidos de un cliente
+						System.out.println("Introduce el ID del Cliente: ");
+						int idCc2 = Integer.parseInt(sc.nextLine());
 
+						List<Pedido> pedidos = session.createQuery(
+							"FROM Pedido o WHERE o.customer.id =:id ORDER BY o.fecha DESC",
+							Pedido.class)
+							.setParameter("id", idCc2)
+							.getResultList();
+							for (Pedido pedido : pedidos) {
+								Pedido o = (Pedido) pedido;
+								System.out.println(
+									"Pedido " + o.getId() +
+									" - Producto: " + o.getProduct().getNombre() +
+									" - Cantidad: " + o.getCantidad() +
+									" - Importe: " + o.getImporte() +
+									" - Fecha: " + o.getFecha()
+								);
+							}
+							session.close();
 						break;
 					case 7:
 						// Se cierra el programa
 						System.out.println("Programa cerrado");
 						break;
 				}
-
 			}
-
 		}catch (Exception e) {
-			System.out.println("Error general");
+			System.out.println(e.getMessage());
 		}
-
-
 	}
-
 }
