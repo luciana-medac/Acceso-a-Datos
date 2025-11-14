@@ -1,0 +1,20 @@
+<hibernate-mapping>
+    <!-- El nombre de la clase y en table es el nombre de la tabla a crear en SQL -->
+    <class name="com.example.demo.Mesa" table="Mesa">
+        <meta attribute="class-description">
+            <!-- Clase que almacena información de clientes -->
+        </meta>
+
+        <!-- indica que es clave principal nombre: el que le hayamos dado en la clase java, 
+                        type: tipo de dato y column: nombre de la columna en SQL -->
+        <id name="id" type="int" column="id_mesa">
+            <generator class="native"/>
+        </id>
+
+        <property name="numMesa" column="Numero Mesa" type="string"/>
+        <!-- Relación muchos para un restaurnate (clave foránea)--> 
+        <many-to-one name="idRestaurante" class="com.example.demo.Restaurante" column="idRestaurante" not-null="true"/>
+
+
+    </class>
+</hibernate-mapping>

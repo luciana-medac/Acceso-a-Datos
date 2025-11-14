@@ -1,0 +1,18 @@
+<hibernate-mapping>
+    <!-- El nombre de la clase y en table es el nombre de la tabla a crear en SQL -->
+    <class name="com.example.demo.Cliente" table="Cliente">
+        <meta attribute="class-description">
+            <!-- Clase que almacena información de clientes -->
+        </meta>
+
+        <!-- indica que es clave principal nombre: el que le hayamos dado en la clase java, 
+                        type: tipo de dato y column: nombre de la columna en SQL -->
+        <id name="id" type="int" column="id_cliente">
+            <generator class="native"/>
+        </id>
+
+        <property name="nombre" column="Nombre Cliente" type="string"/>
+        <property name="telefono" column="Telefono" type="string"/>
+
+    </class>
+</hibernate-mapping>
