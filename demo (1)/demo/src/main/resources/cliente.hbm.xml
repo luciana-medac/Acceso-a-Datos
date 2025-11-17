@@ -12,7 +12,7 @@
         </id>
 
         <property name="nombre" column="Nombre Cliente" type="string"/>
-        <property name="telefono" column="Telefono" type="string"/>
+        <property name="telefono" column="Telefono" type="double"/>
 
     </class>
 </hibernate-mapping>

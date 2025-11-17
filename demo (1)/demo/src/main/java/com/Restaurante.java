@@ -1,3 +1,4 @@
+package com;
 public class Restaurante {
 
     private int id;
@@ -7,8 +8,7 @@ public class Restaurante {
 
     }
 
-    public Restaurante(int i, String n){
-        this.id = i;
+    public Restaurante(String n){
         this.nombre = n;
     }
 

@@ -1,16 +1,15 @@
+package com;
 public class Cliente {
 
     private int id;
     private String nombre;
-    private String telefono;
+    private double telefono;
 
     public Cliente(){
 
     }
 
-    public Cliente(int i, String n, String t){
-
-        this.id = i;
+    public Cliente(String n, double t){
         this.nombre = n;
         this.telefono = t;
 
@@ -24,7 +23,7 @@ public class Cliente {
         return nombre;
     }
 
-    public String getTelefono() {
+    public double getTelefono() {
         return telefono;
     }
 
@@ -36,7 +35,7 @@ public class Cliente {
         this.nombre = nombre;
     }
 
-    public void setTelefono(String telefono) {
+    public void setTelefono(double telefono) {
         this.telefono = telefono;
     }
 

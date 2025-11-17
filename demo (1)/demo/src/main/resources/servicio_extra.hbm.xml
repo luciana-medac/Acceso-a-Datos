@@ -13,5 +13,11 @@
 
         <property name="nombre" column="Nombre Servicio" type="string"/>
 
+        <!-- Relación muchos-a-muchos (lado inverso) -->
+        <set name="reservas" table="Reserva_ServicioExtra" inverse="true">
+            <key column="id_servicio"/> <!-- FK hacia ServicioExtra -->
+            <many-to-many class="com.example.demo.Reserva" column="id_reserva"/>
+        </set>
+
     </class>
 </hibernate-mapping>

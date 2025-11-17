@@ -1,3 +1,4 @@
+package com;
 public class Mesa {
 
     private int id;
@@ -8,8 +9,7 @@ public class Mesa {
 
     }
 
-    public Mesa(int i, int nM, Restaurante idRes){
-        this.id = i;
+    public Mesa(int nM, Restaurante idRes){
         this.numMesa = nM;
         this.idRestaurante = idRes;
     }

@@ -1,4 +1,8 @@
+package com;
 import java.util.Date;
+import java.util.HashSet;
+import java.util.Set;
+
 
 public class Reserva {
 
@@ -6,13 +10,15 @@ public class Reserva {
     private Date fecha;
     private Mesa idMesa;
     private Cliente idCliente;
+    private Set<ServicioExtra> serviciosExtras = new HashSet<>();
+
+    
 
     public Reserva(){
 
     }
 
-    public Reserva(int i, Date f, Mesa idM, Cliente idC){
-        this.id = i;
+    public Reserva(Date f, Mesa idM, Cliente idC){
         this.fecha = f;
         this.idMesa = idM;
         this.idCliente = idC;
@@ -48,6 +54,14 @@ public class Reserva {
 
     public void setIdCliente(Cliente idC){
         this.idCliente = idC;
+    }
+    
+    public Set<ServicioExtra> getServiciosExtras() {
+        return serviciosExtras;
+    }
+
+    public void setServiciosExtras(Set<ServicioExtra> serviciosExtras) {
+        this.serviciosExtras = serviciosExtras;
     }
 
 }
