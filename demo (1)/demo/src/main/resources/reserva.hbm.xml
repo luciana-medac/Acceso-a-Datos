@@ -13,9 +13,9 @@
 
         <property name="fecha" column="Fecha" type="date"/>
 
+        <many-to-one name="idCliente" class="com.example.demo.Cliente" column="idCliente" not-null="true"/>
         <many-to-one name="idMesa" class="com.example.demo.Mesa" column="idMesa" not-null="true"/>
-        <many-to-one name="idCliente" class="com.example.demo.Cliene" column="idCliente" not-null="true"/>
-
+        
         <set name="serviciosExtras" table="Reserva_ServicioExtra" cascade="all">
             <key column="id_reserva"/>
             <many-to-many class="com.example.demo.ServicioExtra" column="id_servicio"/>

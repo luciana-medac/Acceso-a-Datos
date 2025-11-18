@@ -11,7 +11,8 @@
             <generator class="native"/>
         </id>
 
-        <property name="numMesa" column="Numero Mesa" type="string"/>
+        <property name="numMesa" column="Numero Mesa" type="int"/>
+
         <!-- Relación muchos para un restaurnate (clave foránea)--> 
         <many-to-one name="idRestaurante" class="com.example.demo.Restaurante" column="idRestaurante" not-null="true"/>
 

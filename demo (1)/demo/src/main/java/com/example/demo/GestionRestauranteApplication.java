@@ -1,4 +1,4 @@
-package com;
+package com.example.demo;
 
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -42,7 +42,7 @@ public class GestionRestauranteApplication {
 						session = SessionFactory.openSession();
 						session.beginTransaction();
 
-						System.out.println("Introduce el nombre del cliente: ");
+						System.out.println("Introduce el nombre del Restaurante: ");
 						String nRestaurante = sc.nextLine();
 
 						Restaurante r1 = new Restaurante(nRestaurante);
@@ -70,11 +70,10 @@ public class GestionRestauranteApplication {
 
 							Restaurante r = session.get(Restaurante.class, idRestaurante);
 
-							Mesa m1 = new Mesa(numMesa, r);
-
-							session.persist(m1);
-							session.getTransaction().commit();
-							session.close();
+							Mesa m1 = new Mesa();
+							
+							m1.setNumMesa(numMesa);
+							m1.setIdRestaurante(r);
 
 							if (r == null) {
 								System.out.println("El Restaurante con ID: " + idRestaurante + " no existe");
@@ -85,6 +84,10 @@ public class GestionRestauranteApplication {
 
 							System.out.println("¿Quieres añadir más mesas?s/n");
 							opcion2 = sc.nextLine();
+
+							session.persist(m1);
+							session.getTransaction().commit();
+							session.close();
 
 						} while (!opcion2.equals("n"));
 
@@ -196,7 +199,7 @@ public class GestionRestauranteApplication {
 								reserva.getServiciosExtras().add(serv);
 
 								// Si es bidireccional, también:
-								serv.getReservas().add(reserva);
+								//serv.getReservas().add(reserva);
 
 								System.out.println("Servicio añadido correctamente.");
 							}
