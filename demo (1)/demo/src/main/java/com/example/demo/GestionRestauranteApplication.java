@@ -2,6 +2,7 @@ package com.example.demo;
 
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.List;
 import java.util.Scanner;
 
 import org.hibernate.Session;
@@ -22,7 +23,7 @@ public class GestionRestauranteApplication {
 			Scanner sc = new Scanner(System.in);
 			int opcion = 0;
 
-			while (opcion != 7) {
+			while (opcion != 9) {
 
 				System.out.println("============ RESERVAS RESTAURANTE ==============");
 				System.out.println("1. Crear un restaurante");
@@ -32,6 +33,7 @@ public class GestionRestauranteApplication {
 				System.out.println("5. Crear un servicio extra");
 				System.out.println("6. Asignar servicios a la reserva");
 				System.out.println("7. Cambiar fecha de Reserva");
+				System.out.println("8. Listar Reservas de un cliente");
 				System.out.println("8. Salir");
 				System.out.println("Elige una opción: ");
 				opcion = Integer.parseInt(sc.nextLine());
@@ -55,12 +57,13 @@ public class GestionRestauranteApplication {
 						break;
 					case 2:
 						// Crear mesas
-						session = SessionFactory.openSession();
-						session.beginTransaction();
 
 						String opcion2 = "";
 
 						do {
+
+							session = SessionFactory.openSession();
+							session.beginTransaction();
 
 							System.out.println("Introduce el número de la mesa");
 							int numMesa = Integer.parseInt(sc.nextLine());
@@ -71,7 +74,7 @@ public class GestionRestauranteApplication {
 							Restaurante r = session.get(Restaurante.class, idRestaurante);
 
 							Mesa m1 = new Mesa();
-							
+
 							m1.setNumMesa(numMesa);
 							m1.setIdRestaurante(r);
 
@@ -125,6 +128,8 @@ public class GestionRestauranteApplication {
 						Mesa m = session.get(Mesa.class, idMesa);
 						Cliente c = session.get(Cliente.class, idClienteR);
 
+						Reserva R1 = new Reserva();
+
 						System.out.println("Introduce el día: ");
 
 						System.out.println("Introduce la fecha (dd/MM/yyyy): ");
@@ -133,7 +138,13 @@ public class GestionRestauranteApplication {
 						SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
 						Date fechaR = sdf.parse(fechaTexto);
 
-						Reserva R1 = new Reserva(fechaR, m, c);
+						R1.setIdCliente(c);
+						R1.setIdMesa(m);
+						R1.setFecha(fechaR);
+
+						session.persist(R1);
+						session.getTransaction().commit();
+						session.close();
 
 						if (m == null || c == null) {
 
@@ -143,15 +154,18 @@ public class GestionRestauranteApplication {
 							System.out.println("Se ha añadido correctamente la reserva");
 						}
 
+						
+
 						break;
 					case 5:
 						// Crear un servicio extra
-						session = SessionFactory.openSession();
-						session.beginTransaction();
-
 						String opcion3 = "";
-						
+
 						do {
+
+							session = SessionFactory.openSession();
+							session.beginTransaction();
+
 							System.out.println("Introduce el nombre del servicio:");
 							String nServicio = sc.nextLine();
 
@@ -162,31 +176,32 @@ public class GestionRestauranteApplication {
 							session.close();
 
 							System.out.println("El servicio se ha encontrado correctamente");
-							
+
 							System.out.println("¿Quieres seguir creando servicios? s/n");
 							opcion3 = sc.nextLine();
 
 						} while (!opcion3.equals("n"));
+
 						break;
 					case 6:
 						// Asignar servicios a la reserva
-						session = SessionFactory.openSession();
-						session.beginTransaction();
-
-						System.out.println("Introduce el ID de la reserva:");
-						int idRes = Integer.parseInt(sc.nextLine());
-
-						Reserva reserva = session.get(Reserva.class, idRes);
-
-						if (reserva == null) {
-							System.out.println("No existe la reserva con ID: " + idRes);
-							session.close();
-							break;
-						}
 
 						String seguir = "";
-
 						do {
+							session = SessionFactory.openSession();
+							session.beginTransaction();
+
+							System.out.println("Introduce el ID de la reserva:");
+							int idRes = Integer.parseInt(sc.nextLine());
+
+							Reserva reserva = session.get(Reserva.class, idRes);
+
+							if (reserva == null) {
+								System.out.println("No existe la reserva con ID: " + idRes);
+								session.close();
+								break;
+							}
+
 							System.out.println("Introduce el ID del servicio extra que deseas añadir:");
 							int idServ = Integer.parseInt(sc.nextLine());
 
@@ -199,7 +214,7 @@ public class GestionRestauranteApplication {
 								reserva.getServiciosExtras().add(serv);
 
 								// Si es bidireccional, también:
-								//serv.getReservas().add(reserva);
+								// serv.getReservas().add(reserva);
 
 								System.out.println("Servicio añadido correctamente.");
 							}
@@ -207,11 +222,13 @@ public class GestionRestauranteApplication {
 							System.out.println("¿Deseas asignar otro servicio? (s/n)");
 							seguir = sc.nextLine();
 
+							session.persist(reserva);
+							session.getTransaction().commit();
+							session.close();
+
 						} while (!seguir.equalsIgnoreCase("n"));
 
-						session.persist(reserva);
-						session.getTransaction().commit();
-						session.close();
+						
 
 						break;
 
@@ -221,6 +238,7 @@ public class GestionRestauranteApplication {
 						session.beginTransaction();
 
 						System.out.println("Introduce el ID de la reserva: ");
+						int IDRes = Integer.parseInt(sc.nextLine());
 
 						System.out.println("Introduce la nueva fecha (dd/MM/yyyy): ");
 						String fechaNueva = sc.nextLine();
@@ -230,8 +248,9 @@ public class GestionRestauranteApplication {
 
 						Query q = session.createQuery(
 								"UPDATE Reserva set fecha=:fecha where id=:id");
-						
-						q.setParameter("fecha", fechaNueva);
+
+						q.setParameter("fecha", fechaRN);
+						q.setParameter("id", IDRes);
 						q.executeUpdate();
 
 						session.getTransaction().commit();
@@ -241,10 +260,33 @@ public class GestionRestauranteApplication {
 
 						break;
 					case 8:
-						System.out.println("Programa cerrado: ");
+						session = SessionFactory.openSession();
+						session.beginTransaction();
 
+						System.out.println("Introduce el ID del cliente: ");
+						int IDCli = Integer.parseInt(sc.nextLine());
+
+						List<Reserva> reservas = session.createQuery(
+							"FROM Reserva r WHERE r.Cliente.id =:id ORDER BY r.fecha DESC",
+							Reserva.class)
+							.setParameter("id", IDCli)
+							.getResultList();
+							for(Reserva reserva : reservas){
+								Reserva r = (Reserva) reserva;
+								System.out.println(
+									"Reserva " + r.getId() +
+									" - Cliente: " + r.getIdCliente().getNombre() +
+									" - Fecha: " + r.getFecha()
+								);
+							}
+
+
+						System.out.println("Programa cerrado");
 						break;
-
+					case 9:
+					
+						System.out.println("Programa cerrado");
+						break;
 					default:
 						break;
 				}
