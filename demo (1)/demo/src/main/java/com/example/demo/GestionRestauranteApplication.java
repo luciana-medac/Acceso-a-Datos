@@ -1,6 +1,7 @@
 package com.example.demo;
 
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.Scanner;
@@ -23,7 +24,7 @@ public class GestionRestauranteApplication {
 			Scanner sc = new Scanner(System.in);
 			int opcion = 0;
 
-			while (opcion != 9) {
+			while (opcion != 12) {
 
 				System.out.println("============ RESERVAS RESTAURANTE ==============");
 				System.out.println("1. Crear un restaurante");
@@ -33,9 +34,12 @@ public class GestionRestauranteApplication {
 				System.out.println("5. Crear un servicio extra");
 				System.out.println("6. Asignar servicios a la reserva");
 				System.out.println("7. Cambiar fecha de Reserva");
-				System.out.println("8. Listar Reservas de un cliente");
-				System.out.println("8. Salir");
-				System.out.println("Elige una opción: ");
+				System.out.println("8. Eliminar un servicio extra de una reserva");
+				System.out.println("9. Listar Reservas de un cliente");
+				System.out.println("10. Listar todas las reservas de un cliente");
+				System.out.println("11. Estadisticas: cantidad de reservas por cliente");
+				System.out.println("12. Salir");
+				System.out.print("Elige una opción: ");
 				opcion = Integer.parseInt(sc.nextLine());
 
 				switch (opcion) {
@@ -154,8 +158,6 @@ public class GestionRestauranteApplication {
 							System.out.println("Se ha añadido correctamente la reserva");
 						}
 
-						
-
 						break;
 					case 5:
 						// Crear un servicio extra
@@ -210,11 +212,8 @@ public class GestionRestauranteApplication {
 							if (serv == null) {
 								System.out.println("No existe el servicio con ID: " + idServ);
 							} else {
-								// Asignar servicio a la reserva
+								
 								reserva.getServiciosExtras().add(serv);
-
-								// Si es bidireccional, también:
-								// serv.getReservas().add(reserva);
 
 								System.out.println("Servicio añadido correctamente.");
 							}
@@ -228,8 +227,6 @@ public class GestionRestauranteApplication {
 
 						} while (!seguir.equalsIgnoreCase("n"));
 
-						
-
 						break;
 
 					case 7:
@@ -237,57 +234,191 @@ public class GestionRestauranteApplication {
 						session = SessionFactory.openSession();
 						session.beginTransaction();
 
-						System.out.println("Introduce el ID de la reserva: ");
-						int IDRes = Integer.parseInt(sc.nextLine());
+						try {
+							System.out.println("Introduce el ID de la reserva: ");
+							int IDRes = Integer.parseInt(sc.nextLine());
 
-						System.out.println("Introduce la nueva fecha (dd/MM/yyyy): ");
-						String fechaNueva = sc.nextLine();
+							System.out.println("Introduce la nueva fecha (dd/MM/yyyy): ");
+							String fechaNueva = sc.nextLine();
 
-						SimpleDateFormat sdf1 = new SimpleDateFormat("dd/MM/yyyy");
-						Date fechaRN = sdf1.parse(fechaNueva);
+							SimpleDateFormat sdf1 = new SimpleDateFormat("dd/MM/yyyy");
+							Date fechaRN = sdf1.parse(fechaNueva);
 
-						Query q = session.createQuery(
-								"UPDATE Reserva set fecha=:fecha where id=:id");
+							Query q = session.createQuery(
+									"UPDATE Reserva set fecha=:fecha where id=:id");
 
-						q.setParameter("fecha", fechaRN);
-						q.setParameter("id", IDRes);
-						q.executeUpdate();
+							q.setParameter("fecha", fechaRN);
+							q.setParameter("id", IDRes);
 
-						session.getTransaction().commit();
-						session.close();
+							int actualizadas = q.executeUpdate();
 
-						System.out.println("Se ha actualizado correctamente la fecha");
+							if (actualizadas == 0) {
+								System.out.println("No existe la reserva con ese ID.");
+							} else {
+								System.out.println("Fecha actualizada correctamente.");
+							}
 
+							session.getTransaction().commit();
+
+						} catch (Exception e) {
+							System.out.println("Error al actualizar la fecha: " + e.getMessage());
+							session.getTransaction().rollback(); // hacemos el rollback aquí porque modifica la base de
+																	// datos
+						} finally {
+							session.close();
+						}
 						break;
 					case 8:
 						session = SessionFactory.openSession();
 						session.beginTransaction();
 
-						System.out.println("Introduce el ID del cliente: ");
-						int IDCli = Integer.parseInt(sc.nextLine());
+						try {
+							System.out.println("Introduce el ID de la reserva:");
+							int idReserva = Integer.parseInt(sc.nextLine());
 
-						List<Reserva> reservas = session.createQuery(
-							"FROM Reserva r WHERE r.Cliente.id =:id ORDER BY r.fecha DESC",
-							Reserva.class)
-							.setParameter("id", IDCli)
-							.getResultList();
-							for(Reserva reserva : reservas){
-								Reserva r = (Reserva) reserva;
-								System.out.println(
-									"Reserva " + r.getId() +
-									" - Cliente: " + r.getIdCliente().getNombre() +
-									" - Fecha: " + r.getFecha()
-								);
+							Reserva reserva = session.get(Reserva.class, idReserva);
+
+							if (reserva == null) {
+								System.out.println("No existe la reserva con ID: " + idReserva);
+								session.close();
+								break;
 							}
 
+							System.out.println("Introduce el ID del servicio extra que quieres eliminar:");
+							int idServEliminar = Integer.parseInt(sc.nextLine());
 
-						System.out.println("Programa cerrado");
+							ServicioExtra serv = session.get(ServicioExtra.class, idServEliminar);
+
+							if (serv == null) {
+								System.out.println("No existe el servicio con ID: " + idServEliminar);
+								session.close();
+								break;
+							}
+
+							// Intentar eliminarlo de la lista
+							if (reserva.getServiciosExtras().contains(serv)) {
+
+								reserva.getServiciosExtras().remove(serv);
+
+								System.out.println("Servicio eliminado correctamente de la reserva.");
+							} else {
+								System.out.println("La reserva NO tiene asociado ese servicio.");
+							}
+
+							session.getTransaction().commit();
+
+						} catch (Exception ex) {
+							session.getTransaction().rollback();
+							System.out.println("Error al eliminar el servicio: " + ex.getMessage());
+						} finally {
+							session.close();
+						}
+
 						break;
+
 					case 9:
-					
+						// Lista las Reservas de un cliente y los servicios extra
+						session = SessionFactory.openSession();
+						session.beginTransaction();
+
+						System.out.println("Introduce el ID del cliente: ");
+						int idCli = Integer.parseInt(sc.nextLine());
+
+						List<Reserva> reservasCliente = session.createQuery(
+								"FROM Reserva r WHERE r.idCliente.id = :idCliente ORDER BY r.fecha DESC",
+								Reserva.class)
+								.setParameter("idCliente", idCli)
+								.getResultList();
+
+						if (reservasCliente.isEmpty()) {
+							System.out.println("Este cliente no tiene reservas.");
+						}
+
+						for (Reserva r : reservasCliente) {
+
+							System.out.println("Reserva ID: " + r.getId());
+							System.out.println("Fecha: " + r.getFecha());
+							System.out.println("Mesa: " + r.getIdMesa().getNumMesa());
+							System.out.println("Cliente: " + r.getIdCliente().getNombre());
+							System.out.println("Servicios extra asignados:");
+
+							// Mostrar los servicios extra
+							if (r.getServiciosExtras().isEmpty()) {
+								System.out.println("   (Sin servicios extra)");
+							} else {
+								for (ServicioExtra s : r.getServiciosExtras()) {
+									System.out.println("   - " + s.getNombre());
+								}
+							}
+						}
+
+						session.getTransaction().commit();
+						session.close();
+
+						break;
+
+					case 10:
+
+						// Lista todas las reservas de un cliente ordenadas por fecha
+						session = SessionFactory.openSession();
+						session.beginTransaction();
+
+						System.out.println("Introduce el ID del cliente: ");
+						int idClie = Integer.parseInt(sc.nextLine());
+
+						List<Reserva> reservas = session.createQuery(
+								"FROM Reserva r WHERE r.idCliente.id = :idCliente ORDER BY r.fecha DESC",
+								Reserva.class)
+								.setParameter("idCliente", idClie)
+								.getResultList();
+
+						for (Reserva r : reservas) {
+							System.out.println(
+									"Reserva " + r.getId() +
+											" - Cliente: " + r.getIdCliente().getNombre() +
+											" - Fecha: " + r.getFecha());
+						}
+
+						session.getTransaction().commit();
+						session.close();
+
+						break;
+
+					case 11:
+
+						// Hace una estadísticas de reservas por ejemplo: Ramon castro tiene 1 reserva,
+						// etc.
+						session = SessionFactory.openSession();
+						session.beginTransaction();
+
+						// Devuelve varios valores por cada fila de resultado
+						List<Object[]> resultados = session.createQuery(
+								"SELECT r.idCliente.nombre, COUNT(r) " +
+										"FROM Reserva r " +
+										"GROUP BY r.idCliente.nombre " +
+										"ORDER BY COUNT(r) DESC",
+								Object[].class).getResultList();
+
+						// De cada fila devuelve un array de Objetos: Cliente y Reserva, entonces la
+						// primera posición
+						for (Object[] fila : resultados) {
+							String nombreCliente = (String) fila[0]; // Corresponde al Cliente (nombre)
+							Long totalReservas = (Long) fila[1]; // Corresponde a Reservas (ID Reserva)
+
+							System.out.println(nombreCliente + " tiene " + totalReservas + " reservas");
+						}
+
+						session.getTransaction().commit();
+						session.close();
+
+						break;
+
+					case 12:
+
 						System.out.println("Programa cerrado");
 						break;
 					default:
+
 						break;
 				}
 

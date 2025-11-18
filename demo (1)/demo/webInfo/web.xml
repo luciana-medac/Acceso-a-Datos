@@ -1,0 +1,10 @@
+<web-app>
+    <servlet>
+        <servlet-name>ListarReservas</servlet-name>
+        <servlet-class>com.example.demo.ListarReservasServlet</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>ListarReservas</servlet-name>
+        <url-pattern>/listarReservas</url-pattern>
+    </servlet-mapping>
+</web-app>

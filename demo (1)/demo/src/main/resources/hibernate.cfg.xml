@@ -9,7 +9,8 @@
         <property name="hibernate.connection.driver_class">com.mysql.cj.jdbc.Driver</property>
         <property name="hibernate.connection.url">jdbc:mysql://localhost:3306/restaurante_db</property>
         <property name="hibernate.connection.username">root</property>
-        <property name="hibernate.connection.password">Med@c</property>
+        <!-- <property name="hibernate.connection.password">Med@c</property> -->
+        <property name="hibernate.connection.password">Medac</property>
         
         <!-- Dialecto, se necesita saber como traducir su SQL genérico al SQL específico de nuestra bbdd -->
         <property name="hibernate.dialect">org.hibernate.dialect.MySQL8Dialect</property>
@@ -19,8 +20,8 @@
         
         <!-- Mostrar en la terminal las sentencias SQL que ejecuta hibernate y las formatea
         para que sea legible -->
-        <property name="show_sql">true</property>
-        <property name="format_sql">true</property>
+        <property name="show_sql">false</property>
+        <property name="format_sql">false</property>
         
         <!-- Fichero de mapeo -->
         <mapping resource="cliente.hbm.xml"/>

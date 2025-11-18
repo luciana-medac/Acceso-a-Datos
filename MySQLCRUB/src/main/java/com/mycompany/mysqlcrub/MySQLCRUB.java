@@ -104,9 +104,7 @@ public class MySQLCRUB {
         } catch (NumberFormatException e){
             System.out.println("Error: introduce un número válido");
         } catch (SQLException ex){
-            
             System.out.println(ex.getMessage());
-            
         } catch (Exception e){
             System.out.println("Error desconocido: " + e.getMessage());
         }
