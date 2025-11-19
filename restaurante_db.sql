@@ -1,4 +1,12 @@
+
 CREATE DATABASE restaurante_db;
 USE restaurante_db;
 
-SELECT * FROM servicio_extra;
+SELECT * From restaurante;
+SELECT * From mesa;
+SELECT * FROM cliente;
+SELECT * From reserva;
+SELECT * From servicio_extra;
+SELECT * FROM Reserva_ServicioExtra;
+
+	

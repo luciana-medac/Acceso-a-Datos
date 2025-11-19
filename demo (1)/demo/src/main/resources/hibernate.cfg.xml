@@ -9,8 +9,8 @@
         <property name="hibernate.connection.driver_class">com.mysql.cj.jdbc.Driver</property>
         <property name="hibernate.connection.url">jdbc:mysql://localhost:3306/restaurante_db</property>
         <property name="hibernate.connection.username">root</property>
-        <!-- <property name="hibernate.connection.password">Med@c</property> -->
-        <property name="hibernate.connection.password">Medac</property>
+        <property name="hibernate.connection.password">Med@c</property>
+        <!-- <property name="hibernate.connection.password">Medac</property> -->
         
         <!-- Dialecto, se necesita saber como traducir su SQL genérico al SQL específico de nuestra bbdd -->
         <property name="hibernate.dialect">org.hibernate.dialect.MySQL8Dialect</property>
