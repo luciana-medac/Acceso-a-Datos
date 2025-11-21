@@ -1,0 +1,62 @@
+EXAMEN MULTIMEDIA
+
+	- 20 PREGUNTAS TIPO TEST / 3 pnts
+	- 6 PREGUNTAS CORTAS / 4 valen 1p y 2 valen 1'5p
+
+CONTENIDO / VER LOS RESUMENES Y LOS EJERCICIOS
+
+	- Teoría del principio (qué es el desarrollo de aplicaciones móviles, etc) - tipo test y una corta
+	- Clases que se utilizan en el código, qué métodos hacen tal cosa
+	- Qué componentes se usan en tal (saber componentes gráficos)
+	- Acerca de la estructura del proyecto de Android (ficheros que tiene, dónde se hace cada cosa)
+
+	- Tecnología y base de datos utilizarías
+	- Cómo harías paso de datos
+
+	- Una de rellenar código (MainActivity que tiene que hacer algo) (hay listener)
+	- Una de la parte backend - Dos tipos de backend (al que se le haya dedicado más tiempo)
+
+EXAMEN INTERFACES
+
+Tipo test:
+	- 10 Mandamientos de las interfaces
+	- Reportes
+
+Caso práctico:
+	- Enseña la interfaz
+	- Hay que decirle 4 cosas sobre la aplicación:
+		- Componentes
+		- Layaouts
+		- Usabilidad (Primer bloque)
+		- Cosas de informes
+
+EXAMEN ACCESO A DATOS
+
+	- 20 tipos test
+		- Diferencias entre DOOM y SAX
+		- Tipo test de los primeros temas que hicimos
+	- Preguntas Desarrollo (ver los GitHub --> los temas)
+		- Pregunta de Hibernate (qué es Hibernate)
+		- Pregunta JDBC (tipos, el que usamos)
+		- Pregunta tipos de acceso, diferencias(ventajas/desventajas)
+	- 2 casos prácticos (rellenar huecos) --> mirar las prácticas
+		- 1 ficheros (cómo crear un fichero, si se hace con un buffer/filewriter, etc)
+		- 1 hibernate o JDBC
+
+EXAMEN SISTEMAS GESTIÓN EMPRESARIAL
+
+	- 20 tipo test
+		- Todo lo de desarrollo {calavera}
+	- Preguntas de desarrollo
+		- Los dos primeros temas
+		- qué era un CRM, flujos, clasificación, qué es Docker, fichero que utilizamos para instalar odoo
+			módulos de Odoo(propone funcionalidad, elige el módulo para ese caso)
+			en qué lenguajes está implementado Odoo, diferentes tipos de roles, ventajas de un ERP libre al de pago
+			fases de implementación (tema 4)
+	- 2 casos prácticos
+		- La Regla de Oro
+
+
+
+
+
