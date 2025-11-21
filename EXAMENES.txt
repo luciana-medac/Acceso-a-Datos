@@ -57,6 +57,30 @@ EXAMEN SISTEMAS GESTIÓN EMPRESARIAL
 		- La Regla de Oro
 
 
+EXAMEN DE HILOS
+
+	- 20 tipo test(toda la teoría)
+	- Preguntas de desarrollo
+		- 1. teoría
+		- 2. hilos y sus sincronizaciones
+		- Tablitas de round robin repasar(algoritmo de planificación de procesos)
+	- Caso práctico
+		- Sincronización de hilos (escribir un método)
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
