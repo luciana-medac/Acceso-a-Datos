@@ -157,14 +157,14 @@ GROUP BY DEREF(c.marca).nombre;
 -- Diferentes marcas que existen (dice las marcas que hay sin que se dupliquen)
 SELECT DISTINCT(DEREF (c.marca).nombre) FROM Coche c;
     
--- Coches de una marca concreta
+-- Coches de una marca concreta(por nombre)
 SELECT 
     c.idvehiculo,
     c.nombre,
     c.precio,
     DEREF(c.marca).nombre AS NombreMarca
 FROM Coche c
-WHERE DEREF(c.marca).IdMarca = 4;
+WHERE DEREF(c.marca).IdMarca = 1;
 
 
 -- Colores del coche
